@@ -16,7 +16,7 @@ function arbitraryPrecondition(packet, rinfo) {
   return (packet.fields.pingID > 0);
 }
 
-server.addPacketHandler(Protocol.CONNECTED_PING, arbitraryPrecondition, (packet, rinfo) => {
+server.addPacketHandler(Protocol.CONNECTED_PING, arbitraryPrecondition, (packet, rinfo, next) => {
   let reply = Packet.create(Protocol.UNCONNECTED_PONG, {
     pingID: packet.fields.pingID,
     serverID: 0,
@@ -25,6 +25,8 @@ server.addPacketHandler(Protocol.CONNECTED_PING, arbitraryPrecondition, (packet,
   });
 
   server.sendMessage(reply, rinfo);
+
+  next();
 });
 
 server.listen();
