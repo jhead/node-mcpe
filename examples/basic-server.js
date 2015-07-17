@@ -8,19 +8,23 @@ server.on('listen', () => {
   console.log('Listening on ' + server.localAddress + ':' + server.localPort);
 });
 
-server.on('packet', (packet, rinfo) => {
+// An example of a precondition for validating packets before processing them.
+// Preconditions are completely optional and run prior to the handler function.
+//
+// This one should always return true.
+function arbitraryPrecondition(packet, rinfo) {
+  return (packet.fields.pingID > 0);
+}
 
-  if (packet.is(Protocol.CONNECTED_PING)) {
-    let reply = Packet.create(Protocol.UNCONNECTED_PONG, {
-      pingID: packet.fields.pingID,
-      serverID: 0,
-      magic: null,
-      identifier: 'MCPE;Test Server;2 7;0.11.1;0;20'
-    });
+server.addPacketHandler(Protocol.CONNECTED_PING, arbitraryPrecondition, (packet, rinfo) => {
+  let reply = Packet.create(Protocol.UNCONNECTED_PONG, {
+    pingID: packet.fields.pingID,
+    serverID: 0,
+    magic: null,
+    identifier: 'MCPE;Test Server;2 7;0.11.1;0;20'
+  });
 
-    server.sendMessage(reply, rinfo);
-  }
-
+  server.sendMessage(reply, rinfo);
 });
 
 server.listen();
