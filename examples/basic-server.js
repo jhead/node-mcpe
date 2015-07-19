@@ -24,7 +24,7 @@ server.addPacketHandler(Protocol.CONNECTED_PING, arbitraryPrecondition, (packet,
     identifier: 'MCPE;Test Server;2 7;0.11.1;0;20'
   });
 
-  server.sendMessage(reply, rinfo);
+  server.sendMessageTo(reply, rinfo);
 
   next();
 });
