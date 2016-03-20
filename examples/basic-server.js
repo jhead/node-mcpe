@@ -21,7 +21,7 @@ server.addPacketHandler(Protocol.CONNECTED_PING, arbitraryPrecondition, (packet,
     pingID: packet.fields.pingID,
     serverID: 0,
     magic: null,
-    identifier: 'MCPE;Test Server;2 7;0.11.1;0;20'
+    identifier: 'MCPE;Test Server;45 45;0.14.0;0;20'
   });
 
   server.sendMessageTo(reply, rinfo);
